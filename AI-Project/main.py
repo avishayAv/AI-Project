@@ -31,11 +31,11 @@ def handle_crisis_before_bear_market_or_unstable_market(trading_day):
     return 1
 
 # Features :
-# increase_sequence (int) - minimum market days of "losing sequence" to tag as crisis.
+# decrease_sequence_lmt (int) - minimum market days of "losing sequence" to tag as crisis.
 # recovery (%) - when the markets are back to price(start_day)*(1-recovery), crisis is over.
 # crisis_percentage (%) - minimum damage to tag as crisis.
 # allow_day_fix (0/1) - ignore a "fix day" in calculation of losing sequence.
-def get_dates_of_crises(increase_sequence, recovery, crisis_percentage, allow_day_fix):
+def get_dates_of_crises(decrease_sequence_lmt, recovery, crisis_percentage, allow_day_fix):
     sp_data = pandas.read_csv("SP500Daily_long.csv")[['Date', 'Open']].to_numpy()  # Date | Open (price)
     start_day = 0
     crisis = []
@@ -62,7 +62,7 @@ def get_dates_of_crises(increase_sequence, recovery, crisis_percentage, allow_da
             min_day_price = min(min_day_price, sp_data[start_day + increase_max_sequence][1])
             increase_max_sequence = increase_max_sequence + 1
         # make sure losing sequence is long enough and crisis is big enough.
-        if increase_max_sequence >= increase_sequence and \
+        if increase_max_sequence >= decrease_sequence_lmt and \
                 start_day + increase_max_sequence < len(sp_data) and \
                 min_day_price * (1 + crisis_percentage) <= start_day_price:
             end_day = start_day + increase_max_sequence - 1
