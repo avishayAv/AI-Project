@@ -18,6 +18,8 @@ def get_this_month(current_date):
 def get_next_month(current_date):
     year, month = current_date
     next_month = (month + 1) % 12
+    if next_month == 0:
+        next_month = 12
     next_year = year if month < 12 else year+1
     return next_year, next_month
 
@@ -67,7 +69,18 @@ def get_month_attributes():
                                 'PERatioValue': 'PrevMonthPERatioValue'}, inplace=True)
     prev_month_combiner['DateMonthFormat'] = prev_month_combiner['DateMonthFormat'].apply(lambda x : get_next_month(x))
 
-    month_combiner_with_lookback = pd.merge(month_combiner, prev_month_combiner)
+    # support prevprev month data for each month.
+    prev_prev_month_combiner = month_combiner.copy()
+    prev_prev_month_combiner.rename(columns={'ShillerPEValue': 'PrevPrevMonthShillerPEValue',
+                                        'DividendValue': 'PrevPrevMonthDividendValue',
+                                        'DividendYieldValue': 'PrevPrevMonthDividendYieldValue',
+                                        'EarningsYieldValue': 'PrevPrevMonthEarningsYieldValue',
+                                        'InflationValue': 'PrevPrevMonthInflationValue',
+                                        'PERatioValue': 'PrevPrevMonthPERatioValue'}, inplace=True)
+    prev_prev_month_combiner['DateMonthFormat'] = prev_prev_month_combiner['DateMonthFormat'].apply(lambda x: get_next_month(get_next_month(x)))
+
+    month_combiner_with_lookback = pd.merge(month_combiner, prev_month_combiner).merge(prev_prev_month_combiner).drop(columns={'ShillerPEValue','DividendValue','DividendYieldValue','EarningsYieldValue','InflationValue','PERatioValue'})
+
 
     return month_combiner_with_lookback
 

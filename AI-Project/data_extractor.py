@@ -44,6 +44,7 @@ def get_dates_of_crises(decrease_sequence_lmt, recovery, crisis_percentage, allo
         start_day_date = sp_data[start_day][0]
         start_day_price = sp_data[start_day][1]
         min_day_price = sp_data[start_day][1]
+        max_day_price = sp_data[start_day][1]
         increase_max_sequence = 1
         count_day_fix = 0
         # Calc losing sequence. triggers (one is enough):
@@ -60,6 +61,7 @@ def get_dates_of_crises(decrease_sequence_lmt, recovery, crisis_percentage, allo
                     sp_data[start_day][1] * (1 - (recovery * handle_crisis_before_bear_market_or_unstable_market(start_day + increase_max_sequence)))):
                 count_day_fix = count_day_fix + 1
             min_day_price = min(min_day_price, sp_data[start_day + increase_max_sequence][1])
+            max_day_price = max(max_day_price, sp_data[start_day + increase_max_sequence][1])
             increase_max_sequence = increase_max_sequence + 1
         # make sure losing sequence is long enough and crisis is big enough.
         if increase_max_sequence >= decrease_sequence_lmt and \
@@ -69,7 +71,7 @@ def get_dates_of_crises(decrease_sequence_lmt, recovery, crisis_percentage, allo
             bubble_inside_crisis = handle_economic_bubble(start_day, end_day)
             if bubble_inside_crisis == -1:
                 crisis.append(
-                    (sp_data[start_day][0], sp_data[start_day + increase_max_sequence - 1][0], increase_max_sequence))
+                    (sp_data[start_day][0], sp_data[start_day + increase_max_sequence - 1][0], increase_max_sequence,min_day_price, max_day_price))
             else:
                 start_day = bubble_inside_crisis
                 continue
