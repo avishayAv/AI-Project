@@ -71,7 +71,7 @@ print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 model = Sequential()
 model.add(LSTM(50, input_shape=(train_X.shape[1], train_X.shape[2])))
 model.add(Dense(1))
-model.compile(loss='mae', optimizer='adam')
+model.compile(loss='mse', optimizer='adam')
 # fit network
 history = model.fit(train_X, train_y, epochs=50, batch_size=72, validation_data=(test_X, test_y), verbose=2,
                     shuffle=False)
@@ -97,3 +97,4 @@ inv_y = inv_y[:, 0]
 # calculate RMSE
 rmse = sqrt(mean_squared_error(inv_y, inv_yhat))
 print('Test RMSE: %.3f' % rmse)
+print('mean %.3f' % (abs(inv_yhat-inv_y)).mean())

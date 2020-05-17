@@ -7,7 +7,7 @@ def add_lookback_prefix(data,suffix):
     return data
 
 
-def get_day_attributes():
+def get_day_attributes(add_look_back = 5):
 
     sp500 = 'SP500.csv'
     sp500_df = pd.read_csv(sp500)
@@ -41,6 +41,9 @@ def get_day_attributes():
 
     #Attributes inner join
     day_combiner = pd.merge(sp500_df, vix_df).merge(apa_df).merge(gld_df).merge(nasdq_df).merge(tnx_df)
+    if add_look_back == 0:
+        day_combiner['DateMonthFormat'] = day_combiner['Date'].apply(lambda x: get_this_month(x))
+        return day_combiner
 
     #add lookback for 5 days
     day_combiner_one = day_combiner.copy()
@@ -53,6 +56,14 @@ def get_day_attributes():
     day_combiner_two.dropna(inplace=True)
     day_combiner_two = add_lookback_prefix(day_combiner_two, '_2')
 
+    if add_look_back == 2:
+        day_combiner_tag = day_combiner[['Date', 'Close']].copy().rename(columns={'Close': 'Price_Day'})
+        day_combiner = pd.merge(day_combiner_one, day_combiner_two).merge(
+            day_combiner_tag)  # day combiner of the same day is for debugging
+
+        # support monthly format for days/months join
+        day_combiner['DateMonthFormat'] = day_combiner['Date'].apply(lambda x: get_this_month(x))
+        return day_combiner
     day_combiner_three = day_combiner.copy()
     day_combiner_three['Date'] = day_combiner_three['Date'].shift(periods=-3)
     day_combiner_three.dropna(inplace=True)

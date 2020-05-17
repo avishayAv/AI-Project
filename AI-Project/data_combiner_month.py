@@ -23,7 +23,7 @@ def get_next_month(current_date):
     next_year = year if month < 12 else year+1
     return next_year, next_month
 
-def get_month_attributes():
+def get_month_attributes(add_look_back = 2):
     shiller_pe_ratio = 'MULTPL-SHILLER_PE_RATIO_MONTH.csv'
     dividend = 'MULTPL-SP500_DIV_MONTH.csv'
     dividend_yield = 'MULTPL-SP500_DIV_YIELD_MONTH.csv'
@@ -59,6 +59,9 @@ def get_month_attributes():
     month_combiner = pd.merge(shiller_pe_ratio_df, dividend_df).merge(dividend_yield_df).merge(earnings_yield_df).merge(infladj_df).merge(pe_ratio_df)
     month_combiner.rename(columns={'Date':'DateMonthFormat'}, inplace=True)
 
+
+    if add_look_back == 0:
+        return month_combiner
     # support previous month data for each month.
     prev_month_combiner = month_combiner.copy()
     prev_month_combiner.rename(columns={'ShillerPEValue': 'PrevMonthShillerPEValue',
