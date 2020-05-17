@@ -1,93 +1,108 @@
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
-
-from subprocess import check_output
-from keras.layers.core import Dense, Activation, Dropout
-from keras.layers.recurrent import LSTM
+import pandas as pd
+import numpy as np
+import keras
+import tensorflow as tf
+from keras.preprocessing.sequence import TimeseriesGenerator
 from keras.models import Sequential
-from tensorflow import keras
-from tensorflow.keras import layers
-from sklearn.preprocessing import MinMaxScaler
-import matplotlib.pyplot as plt
-from numpy import newaxis
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.model_selection import train_test_split
-from tqdm import tqdm
-TIME_STEPS=4
-BATCH_SIZE=2
-
-def build_timeseries(mat, y_col_index):
-    # y_col_index is the index of column that would act as output column
-    # total number of time-series samples would be len(mat) - TIME_STEPS
-    dim_0 = mat.shape[0] - TIME_STEPS
-    dim_1 = mat.shape[1]
-    x = np.zeros((dim_0, TIME_STEPS, dim_1))
-    y = np.zeros((dim_0,))
-
-    for i in tqdm(range(dim_0)):
-        x[i] = mat[i:TIME_STEPS + i]
-        y[i] = mat[TIME_STEPS + i, y_col_index]
-    print("length of time-series i/o", x.shape, y.shape)
-    return x, y
-
-def trim_dataset(mat, batch_size):
-    """
-    trims dataset to a size that's divisible by BATCH_SIZE
-    """
-    no_of_rows_drop = mat.shape[0]%batch_size
-    if(no_of_rows_drop > 0):
-        return mat[:-no_of_rows_drop]
-    else:
-        return mat
-df_ge = pd.read_csv("SP500.csv")
-
-plt.figure()
-plt.plot(df_ge["Open"])
-plt.plot(df_ge["High"])
-plt.plot(df_ge["Low"])
-plt.plot(df_ge["Close"])
-plt.title('sp500 stock price history')
-plt.ylabel('Price (USD)')
-plt.xlabel('Days')
-plt.legend(['Open','High','Low','Close'], loc='upper left')
-plt.show()
-
-plt.figure()
-plt.plot(df_ge["Volume"])
-plt.title('sp stock volume history')
-plt.ylabel('Volume')
-plt.xlabel('Days')
-plt.show()
-
-print("checking if any null values are present\n", df_ge.isna().sum())
-
-train_cols = ["Open","High","Low","Close","Volume"]
-df_train, df_test = train_test_split(df_ge, train_size=0.8, test_size=0.2, shuffle=False)
-print("Train and Test size", len(df_train), len(df_test))
-# scale the feature MinMax, build array
-x = df_train.loc[:,train_cols].values
-min_max_scaler = MinMaxScaler()
-x_train = min_max_scaler.fit_transform(x)
-x_test = min_max_scaler.transform(df_test.loc[:,train_cols])
-
-x_t, y_t = build_timeseries(x_train, 3)
-x_t = trim_dataset(x_t, BATCH_SIZE)
-y_t = trim_dataset(y_t, BATCH_SIZE)
-x_temp, y_temp = build_timeseries(x_test, 3)
-x_val, x_test_t = np.split(trim_dataset(x_temp, BATCH_SIZE),2)
-y_val, y_test_t = np.split(trim_dataset(y_temp, BATCH_SIZE),2)
-
-lstm_model = Sequential()
-lstm_model.add(LSTM(100, batch_input_shape=(BATCH_SIZE, TIME_STEPS, x_t.shape[2]), dropout=0.0, recurrent_dropout=0.0, stateful=True,     kernel_initializer='random_uniform'))
-lstm_model.add(Dropout(0.5))
-lstm_model.add(Dense(20,activation='relu'))
-lstm_model.add(Dense(1,activation='sigmoid'))
-optimizer = keras.optimizers.RMSprop()
-lstm_model.compile(loss='mean_squared_error', optimizer=optimizer)
+from keras.layers import LSTM, Dense
+import plotly.graph_objects as go
 
 
-history = lstm_model.fit(x_t, y_t, epochs=2, verbose=2, batch_size=BATCH_SIZE,
-                    shuffle=False, validation_data=(trim_dataset(x_val, BATCH_SIZE),trim_dataset(y_val, BATCH_SIZE)))
+def predict(num_prediction, model,close_data):
+    prediction_list = close_data[-look_back:]
 
-pred=lstm_model.predict(x_test_t,batch_size=BATCH_SIZE)
+    for _ in range(num_prediction):
+        x = prediction_list[-look_back:]
+        x = x.reshape((1, look_back, 1))
+        out = model.predict(x)[0][0]
+        prediction_list = np.append(prediction_list, out)
+    prediction_list = prediction_list[look_back - 1:]
+
+    return prediction_list
+
+
+def predict_dates(num_prediction):
+    last_date = df['Date'].values[-1]
+    prediction_dates = pd.date_range(last_date, periods=num_prediction + 1).tolist()
+    return prediction_dates
+
+
+filename = "SP500.csv"
+df = pd.read_csv(filename)
+print(df.info())
+
+df['Date'] = pd.to_datetime(df['Date'])
+df.set_axis(df['Date'], inplace=True)
+df.drop(columns=['Open', 'High', 'Low','Date','Adj Close'], inplace=True)
+
+close_data = df.to_numpy()
+close_data = close_data.reshape((-1,2))
+
+split_percent = 0.80
+split = int(split_percent*len(close_data))
+
+close_train = close_data[:split]
+close_test = close_data[split:]
+
+#date_train = df['Date'][:split]
+#date_test = df['Date'][split:]
+
+print(len(close_train))
+print(len(close_test))
+
+
+look_back = 15
+
+train_generator = TimeseriesGenerator(close_train, close_train, length=look_back, batch_size=20)
+test_generator = TimeseriesGenerator(close_test, close_test, length=look_back, batch_size=1)
+
+
+
+model = Sequential()
+model.add(LSTM(10,activation='relu',input_shape=(look_back,2)))
+model.add(Dense(2))
+model.compile(optimizer='adam', loss='mse')
+
+num_epochs = 25
+model.fit_generator(train_generator, epochs=num_epochs)
+
+prediction = model.predict_generator(test_generator)
+
+close_train = close_train.reshape((-1))
+close_test = close_test.reshape((-1))
+prediction = prediction.reshape((-1))
+
+trace1 = go.Scatter(
+    x = date_train,
+    y = close_train,
+    mode = 'lines',
+    name = 'Data'
+)
+trace2 = go.Scatter(
+    x = date_test,
+    y = prediction,
+    mode = 'lines',
+    name = 'Prediction'
+)
+trace3 = go.Scatter(
+    x = date_test,
+    y = close_test,
+    mode='lines',
+    name = 'Ground Truth'
+)
+layout = go.Layout(
+    title = "Google Stock",
+    xaxis = {'title' : "Date"},
+    yaxis = {'title' : "Close"}
+)
+fig = go.Figure(data=[trace1, trace2, trace3], layout=layout)
+fig.show()
+
+close_data = close_data.reshape((-1))
+
+
+
+num_prediction = 30
+forecast = predict(num_prediction, model,close_data)
+forecast_dates = predict_dates(num_prediction)
 a=1

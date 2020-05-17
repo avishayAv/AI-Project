@@ -178,7 +178,193 @@ knn_featues = ['Vix_Close_1', 'Vix_High_1', 'Vix_Low_1', 'Vix_Low_5', 'Vix_Close
 
 
 
+KExtra,stanKBest,X
+
+max_svm = 0.13040000000000002 ,max_forest = 0.187 , max_knn = 0.16519999999999999
+
+svm_featues = ['PrevMonthInflationValue' 'PrevMonthPERatioValue'], size = 2
+
+forest_featues = ['High_1' 'Low_1' 'Close_1' 'Volume_1' 'Vix_High_1' 'Vix_Low_1'
+ 'Vix_Close_1' 'Apa_High_1' 'Apa_Low_1' 'Apa_Close_1' 'Gld_High_1'
+ 'Gld_Low_1' 'Gld_Close_1' 'Gld_Volume_1' 'Nas_High_1' 'Nas_Low_1'
+ 'Nas_Close_1' 'Nas_Volume_1' 'Tnx_High_1' 'Tnx_Low_1' 'Tnx_Close_1'
+ 'High_2' 'Low_2' 'Close_2' 'Volume_2' 'Vix_High_2' 'Vix_Low_2'
+ 'Vix_Close_2' 'Apa_High_2' 'Apa_Low_2' 'Apa_Close_2' 'Apa_Volume_2'
+ 'Gld_High_2' 'Gld_Low_2' 'Gld_Close_2' 'Gld_Volume_2' 'Nas_High_2'
+ 'Nas_Low_2' 'Nas_Close_2' 'Nas_Volume_2' 'Tnx_High_2' 'Tnx_Low_2'
+ 'Tnx_Close_2' 'High_3' 'Low_3' 'Close_3' 'Volume_3' 'Vix_High_3'
+ 'Vix_Low_3' 'Vix_Close_3' 'Apa_High_3' 'Apa_Low_3' 'Apa_Close_3'
+ 'Apa_Volume_3' 'Gld_High_3' 'Gld_Low_3' 'Gld_Close_3' 'Gld_Volume_3'
+ 'Nas_High_3' 'Nas_Low_3' 'Nas_Close_3' 'Nas_Volume_3' 'Tnx_High_3'
+ 'Tnx_Low_3' 'Tnx_Close_3' 'High_4' 'Low_4' 'Close_4' 'Volume_4'
+ 'Vix_High_4' 'Vix_Low_4' 'Vix_Close_4' 'Apa_High_4' 'Apa_Low_4'
+ 'Apa_Close_4' 'Apa_Volume_4' 'Gld_High_4' 'Gld_Low_4' 'Gld_Close_4'
+ 'Gld_Volume_4' 'Nas_High_4' 'Nas_Low_4' 'Nas_Close_4' 'Tnx_High_4'
+ 'Tnx_Low_4' 'Tnx_Close_4' 'High_5' 'Low_5' 'Close_5' 'Volume_5'
+ 'Vix_High_5' 'Vix_Low_5' 'Vix_Close_5' 'Apa_High_5' 'Apa_Low_5'
+ 'Apa_Close_5' 'Apa_Volume_5' 'Gld_High_5' 'Gld_Low_5' 'Gld_Close_5'
+ 'Gld_Volume_5' 'Nas_High_5' 'Nas_Low_5' 'Nas_Close_5' 'Nas_Volume_5'
+ 'Tnx_High_5' 'Tnx_Low_5' 'Tnx_Close_5' 'PrevMonthShillerPEValue'
+ 'PrevMonthDividendValue' 'PrevMonthDividendYieldValue'
+ 'PrevMonthEarningsYieldValue' 'PrevMonthInflationValue'
+ 'PrevMonthPERatioValue' 'PrevPrevMonthShillerPEValue'
+ 'PrevPrevMonthDividendValue' 'PrevPrevMonthDividendYieldValue'
+ 'PrevPrevMonthEarningsYieldValue' 'PrevPrevMonthInflationValue'
+ 'PrevPrevMonthPERatioValue'], size = 120
+
+knn_featues = ['High_1' 'Low_1' 'Close_1' 'High_2' 'Low_2' 'Close_2' 'High_3' 'Low_3'
+ 'Close_3' 'Low_4' 'PrevMonthShillerPEValue' 'PrevMonthDividendValue'
+ 'PrevMonthDividendYieldValue' 'PrevMonthEarningsYieldValue'
+ 'PrevMonthInflationValue' 'PrevMonthPERatioValue'
+ 'PrevPrevMonthShillerPEValue' 'PrevPrevMonthDividendValue'
+ 'PrevPrevMonthDividendYieldValue' 'PrevPrevMonthEarningsYieldValue'
+ 'PrevPrevMonthInflationValue' 'PrevPrevMonthPERatioValue'], size = 22
+
+
+
+
+KBest,normalized_X
+
+max_svm = 0.15919999999999998 ,max_forest = 0.18660000000000002 , max_knn = 0.16560000000000002
+
+svm_featues = ['PrevMonthInflationValue'], size = 1
+
+forest_featues = ['High_1' 'Low_1' 'Close_1' 'Volume_1' 'Vix_High_1' 'Vix_Low_1'
+ 'Vix_Close_1' 'Apa_High_1' 'Apa_Low_1' 'Apa_Close_1' 'Gld_High_1'
+ 'Gld_Low_1' 'Gld_Close_1' 'Gld_Volume_1' 'Nas_High_1' 'Nas_Low_1'
+ 'Nas_Close_1' 'Nas_Volume_1' 'Tnx_High_1' 'Tnx_Low_1' 'Tnx_Close_1'
+ 'High_2' 'Low_2' 'Close_2' 'Volume_2' 'Vix_High_2' 'Vix_Low_2'
+ 'Vix_Close_2' 'Apa_High_2' 'Apa_Low_2' 'Apa_Close_2' 'Apa_Volume_2'
+ 'Gld_High_2' 'Gld_Low_2' 'Gld_Close_2' 'Gld_Volume_2' 'Nas_High_2'
+ 'Nas_Low_2' 'Nas_Close_2' 'Nas_Volume_2' 'Tnx_High_2' 'Tnx_Low_2'
+ 'Tnx_Close_2' 'High_3' 'Low_3' 'Close_3' 'Volume_3' 'Vix_High_3'
+ 'Vix_Low_3' 'Vix_Close_3' 'Apa_High_3' 'Apa_Low_3' 'Apa_Close_3'
+ 'Apa_Volume_3' 'Gld_High_3' 'Gld_Low_3' 'Gld_Close_3' 'Gld_Volume_3'
+ 'Nas_High_3' 'Nas_Low_3' 'Nas_Close_3' 'Nas_Volume_3' 'Tnx_High_3'
+ 'Tnx_Low_3' 'Tnx_Close_3' 'High_4' 'Low_4' 'Close_4' 'Volume_4'
+ 'Vix_High_4' 'Vix_Low_4' 'Vix_Close_4' 'Apa_High_4' 'Apa_Low_4'
+ 'Apa_Close_4' 'Apa_Volume_4' 'Gld_High_4' 'Gld_Low_4' 'Gld_Close_4'
+ 'Gld_Volume_4' 'Nas_High_4' 'Nas_Low_4' 'Nas_Close_4' 'Tnx_High_4'
+ 'Tnx_Low_4' 'Tnx_Close_4' 'High_5' 'Low_5' 'Close_5' 'Volume_5'
+ 'Vix_High_5' 'Vix_Low_5' 'Vix_Close_5' 'Apa_High_5' 'Apa_Low_5'
+ 'Apa_Close_5' 'Apa_Volume_5' 'Gld_High_5' 'Gld_Low_5' 'Gld_Close_5'
+ 'Gld_Volume_5' 'Nas_High_5' 'Nas_Low_5' 'Nas_Close_5' 'Nas_Volume_5'
+ 'Tnx_High_5' 'Tnx_Low_5' 'Tnx_Close_5' 'PrevMonthShillerPEValue'
+ 'PrevMonthDividendValue' 'PrevMonthDividendYieldValue'
+ 'PrevMonthEarningsYieldValue' 'PrevMonthInflationValue'
+ 'PrevMonthPERatioValue' 'PrevPrevMonthShillerPEValue'
+ 'PrevPrevMonthDividendValue' 'PrevPrevMonthDividendYieldValue'
+ 'PrevPrevMonthEarningsYieldValue' 'PrevPrevMonthInflationValue'
+ 'PrevPrevMonthPERatioValue'], size = 120
+
+knn_featues = ['Close_1' 'PrevMonthEarningsYieldValue' 'PrevMonthInflationValue'
+ 'PrevMonthPERatioValue' 'PrevPrevMonthShillerPEValue'
+ 'PrevPrevMonthInflationValue' 'PrevPrevMonthPERatioValue'], size = 7
+
+
+
+
+
+
+KBest,standardized_X
+
+max_svm = 0.153 ,max_forest = 0.187 , max_knn = 0.18
+
+svm_featues = ['High_1' 'Low_1' 'Close_1' 'Vix_High_1' 'Vix_Low_1' 'Vix_Close_1'
+ 'Apa_High_1' 'Apa_Low_1' 'Apa_Close_1' 'Gld_High_1' 'Gld_Low_1'
+ 'Gld_Close_1' 'Nas_High_1' 'Nas_Low_1' 'Nas_Close_1' 'Nas_Volume_1'
+ 'Tnx_High_1' 'Tnx_Low_1' 'Tnx_Close_1' 'High_2' 'Low_2' 'Close_2'
+ 'Vix_High_2' 'Vix_Low_2' 'Vix_Close_2' 'Apa_High_2' 'Apa_Low_2'
+ 'Apa_Close_2' 'Apa_Volume_2' 'Gld_High_2' 'Gld_Low_2' 'Gld_Close_2'
+ 'Nas_High_2' 'Nas_Low_2' 'Nas_Close_2' 'Tnx_High_2' 'Tnx_Low_2'
+ 'Tnx_Close_2' 'High_3' 'Low_3' 'Close_3' 'Vix_High_3' 'Vix_Low_3'
+ 'Vix_Close_3' 'Apa_High_3' 'Apa_Low_3' 'Apa_Close_3' 'Gld_High_3'
+ 'Gld_Low_3' 'Gld_Close_3' 'Nas_High_3' 'Nas_Low_3' 'Nas_Close_3'
+ 'Nas_Volume_3' 'Tnx_High_3' 'Tnx_Low_3' 'Tnx_Close_3' 'High_4' 'Low_4'
+ 'Close_4' 'Volume_4' 'Vix_High_4' 'Vix_Low_4' 'Vix_Close_4' 'Apa_High_4'
+ 'Apa_Low_4' 'Apa_Close_4' 'Apa_Volume_4' 'Gld_High_4' 'Gld_Low_4'
+ 'Gld_Close_4' 'Nas_High_4' 'Nas_Low_4' 'Nas_Close_4' 'Tnx_High_4'
+ 'Tnx_Low_4' 'Tnx_Close_4' 'High_5' 'Low_5' 'Close_5' 'Volume_5'
+ 'Vix_High_5' 'Vix_Low_5' 'Vix_Close_5' 'Apa_High_5' 'Apa_Low_5'
+ 'Apa_Close_5' 'Gld_High_5' 'Gld_Low_5' 'Gld_Close_5' 'Nas_High_5'
+ 'Nas_Low_5' 'Nas_Close_5' 'Nas_Volume_5' 'Tnx_High_5' 'Tnx_Low_5'
+ 'Tnx_Close_5' 'PrevMonthShillerPEValue' 'PrevMonthDividendValue'
+ 'PrevMonthDividendYieldValue' 'PrevMonthEarningsYieldValue'
+ 'PrevMonthInflationValue' 'PrevMonthPERatioValue'
+ 'PrevPrevMonthShillerPEValue' 'PrevPrevMonthDividendValue'
+ 'PrevPrevMonthDividendYieldValue' 'PrevPrevMonthEarningsYieldValue'
+ 'PrevPrevMonthInflationValue' 'PrevPrevMonthPERatioValue'], size = 109
+
+forest_featues = ['High_1' 'Low_1' 'Close_1' 'Volume_1' 'Vix_High_1' 'Vix_Low_1'
+ 'Vix_Close_1' 'Apa_High_1' 'Apa_Low_1' 'Apa_Close_1' 'Gld_High_1'
+ 'Gld_Low_1' 'Gld_Close_1' 'Gld_Volume_1' 'Nas_High_1' 'Nas_Low_1'
+ 'Nas_Close_1' 'Nas_Volume_1' 'Tnx_High_1' 'Tnx_Low_1' 'Tnx_Close_1'
+ 'High_2' 'Low_2' 'Close_2' 'Volume_2' 'Vix_High_2' 'Vix_Low_2'
+ 'Vix_Close_2' 'Apa_High_2' 'Apa_Low_2' 'Apa_Close_2' 'Apa_Volume_2'
+ 'Gld_High_2' 'Gld_Low_2' 'Gld_Close_2' 'Gld_Volume_2' 'Nas_High_2'
+ 'Nas_Low_2' 'Nas_Close_2' 'Nas_Volume_2' 'Tnx_High_2' 'Tnx_Low_2'
+ 'Tnx_Close_2' 'High_3' 'Low_3' 'Close_3' 'Volume_3' 'Vix_High_3'
+ 'Vix_Low_3' 'Vix_Close_3' 'Apa_High_3' 'Apa_Low_3' 'Apa_Close_3'
+ 'Apa_Volume_3' 'Gld_High_3' 'Gld_Low_3' 'Gld_Close_3' 'Gld_Volume_3'
+ 'Nas_High_3' 'Nas_Low_3' 'Nas_Close_3' 'Nas_Volume_3' 'Tnx_High_3'
+ 'Tnx_Low_3' 'Tnx_Close_3' 'High_4' 'Low_4' 'Close_4' 'Volume_4'
+ 'Vix_High_4' 'Vix_Low_4' 'Vix_Close_4' 'Apa_High_4' 'Apa_Low_4'
+ 'Apa_Close_4' 'Apa_Volume_4' 'Gld_High_4' 'Gld_Low_4' 'Gld_Close_4'
+ 'Gld_Volume_4' 'Nas_High_4' 'Nas_Low_4' 'Nas_Close_4' 'Tnx_High_4'
+ 'Tnx_Low_4' 'Tnx_Close_4' 'High_5' 'Low_5' 'Close_5' 'Volume_5'
+ 'Vix_High_5' 'Vix_Low_5' 'Vix_Close_5' 'Apa_High_5' 'Apa_Low_5'
+ 'Apa_Close_5' 'Apa_Volume_5' 'Gld_High_5' 'Gld_Low_5' 'Gld_Close_5'
+ 'Gld_Volume_5' 'Nas_High_5' 'Nas_Low_5' 'Nas_Close_5' 'Nas_Volume_5'
+ 'Tnx_High_5' 'Tnx_Low_5' 'Tnx_Close_5' 'PrevMonthShillerPEValue'
+ 'PrevMonthDividendValue' 'PrevMonthDividendYieldValue'
+ 'PrevMonthEarningsYieldValue' 'PrevMonthInflationValue'
+ 'PrevMonthPERatioValue' 'PrevPrevMonthShillerPEValue'
+ 'PrevPrevMonthDividendValue' 'PrevPrevMonthDividendYieldValue'
+ 'PrevPrevMonthEarningsYieldValue' 'PrevPrevMonthInflationValue'
+ 'PrevPrevMonthPERatioValue'], size = 120
+
+knn_featues = ['Close_1' 'PrevMonthShillerPEValue' 'PrevMonthInflationValue'
+ 'PrevMonthPERatioValue' 'PrevPrevMonthShillerPEValue'
+ 'PrevPrevMonthInflationValue' 'PrevPrevMonthPERatioValue'], size = 7
+
+
+
+
+
+
+KExtra,X
+
+max_svm = 0.1682 ,max_forest = 0.18580000000000002 , max_knn = 0.183
+
+svm_featues = ['Vix_Close_1'], size = 1
+
+forest_featues = ['Vix_Close_1', 'Vix_High_1', 'Vix_Low_1', 'Vix_Low_3', 'Vix_Close_2', 'Vix_Low_5', 'Close_1', 'Low_1', 'Vix_Close_5', 'Vix_Low_4', 'Vix_High_2', 'Vix_Low_2', 'High_1', 'Vix_Close_3', 'Vix_Close_4', 'Vix_High_4', 'Vix_High_5', 'Vix_High_3', 'Apa_Volume_4', 'Nas_Volume_5', 'Apa_Volume_3', 'Gld_Volume_4', 'Apa_Volume_5', 'Apa_Volume_1', 'Nas_Close_1', 'Volume_4', 'Volume_2', 'Gld_Volume_5', 'Close_2', 'Nas_Volume_4', 'Gld_Volume_2', 'Tnx_High_2', 'Nas_Volume_3', 'Tnx_Close_1', 'Gld_Volume_3', 'Gld_Close_1', 'Gld_Volume_1', 'Volume_1', 'Gld_Low_1', 'Tnx_High_1', 'Nas_Volume_2', 'Apa_Volume_2', 'Volume_3', 'Nas_Low_1', 'High_2', 'Gld_High_1', 'Volume_5', 'Nas_Volume_1', 'Close_4', 'Low_2', 'Tnx_Close_3', 'Apa_Low_1', 'Low_3', 'Nas_High_1', 'Apa_High_5', 'Apa_Close_1', 'Apa_Close_2', 'Tnx_Low_5', 'Tnx_Low_1', 'Apa_Low_2', 'High_3', 'Apa_High_1', 'Tnx_High_5', 'Tnx_Close_4', 'Gld_Close_2', 'Close_5', 'Nas_Close_3', 'Apa_Low_4', 'PrevPrevMonthEarningsYieldValue', 'PrevPrevMonthPERatioValue', 'Nas_Close_2', 'Tnx_Low_3', 'Nas_Close_4', 'Apa_High_2', 'Tnx_High_4', 'Tnx_Close_5', 'Gld_High_2', 'Low_4', 'Gld_Low_3', 'Apa_High_4', 'Tnx_Close_2', 'Gld_High_3', 'Tnx_Low_4', 'Apa_Close_5', 'PrevPrevMonthDividendYieldValue', 'Gld_High_5', 'Nas_High_2', 'Tnx_High_3', 'Gld_Low_2', 'Gld_Close_3', 'High_5', 'Apa_Low_5', 'Tnx_Low_2', 'Close_3', 'Gld_Low_5', 'Nas_Low_5', 'Apa_Close_4', 'Low_5', 'High_4', 'Gld_Low_4', 'Nas_Low_4', 'Nas_Low_3'], size = 102
+knn_featues = ['Vix_Close_1', 'Vix_Low_1', 'Vix_High_1', 'Vix_Close_5', 'Close_1', 'High_1', 'Vix_Close_4', 'Vix_Low_5', 'Vix_Low_2', 'Vix_High_2'], size = 10
+
+
+
+
+
+KExtra,normalized_X
+
+max_svm = 0.1842 ,max_forest = 0.18319999999999997 , max_knn = 0.1766
+
+svm_featues = ['Vix_Close_1', 'Vix_High_1'], size = 2
+
+forest_featues = ['Vix_Close_1', 'Close_1', 'Vix_High_1', 'Vix_Low_1', 'Vix_Low_4', 'Vix_Close_2'], size = 6
+
+knn_featues = ['Vix_Close_1', 'Vix_High_1', 'Vix_Low_1', 'Vix_Low_5', 'Vix_Close_5', 'Vix_High_2', 'Close_1', 'High_1'], size = 8
+
+
+
+
 KExtra,standardized_X
+
+max_svm = 0.1772 ,max_forest = 0.182 , max_knn = 0.1768
+svm_featues = ['Vix_Close_1', 'Vix_High_1', 'Vix_Low_1', 'Vix_High_5', 'Close_1', 'Vix_Low_2', 'Vix_Low_4', 'Vix_Close_5', 'Vix_Low_5', 'Vix_Close_2', 'Vix_Close_3', 'Gld_Volume_4', 'Low_1', 'Vix_High_3', 'Vix_Low_3', 'Gld_Volume_5', 'Vix_High_2'], size = 17
+forest_featues = ['Vix_Close_1', 'Vix_High_1', 'Vix_Low_1', 'Close_1', 'High_1', 'Vix_Close_5', 'Vix_Low_4', 'Vix_Low_5', 'Low_1', 'Vix_Close_4', 'Vix_High_5', 'Vix_Low_2', 'Vix_High_2', 'Vix_Close_3', 'Vix_Low_3', 'Vix_High_3', 'Vix_Close_2', 'Apa_Volume_3', 'Apa_Volume_1', 'Vix_High_4', 'Nas_Close_1', 'Apa_Volume_5', 'Gld_Volume_4', 'Gld_Volume_3', 'Apa_Volume_4', 'Nas_Volume_3', 'Gld_Volume_5', 'Gld_Volume_1', 'Gld_Volume_2', 'Volume_4', 'Apa_Volume_2', 'Tnx_Close_1', 'Nas_Volume_2', 'Volume_3', 'Nas_Volume_1', 'Volume_2', 'Nas_Low_1', 'Volume_1', 'Nas_High_1', 'Gld_Close_1', 'Nas_Volume_5', 'Close_2', 'Apa_Low_1', 'Tnx_Close_3', 'Gld_Low_1', 'Apa_Low_4', 'Apa_Close_1', 'Tnx_High_1', 'Nas_Volume_4'], size = 49
+knn_featues = ['Vix_Close_1', 'Vix_High_1', 'Vix_Low_1', 'Close_1'], size = 4
+dardized_X
 
 max_svm = 0.1772 ,max_forest = 0.182 , max_knn = 0.1768
 svm_featues = ['Vix_Close_1', 'Vix_High_1', 'Vix_Low_1', 'Vix_High_5', 'Close_1', 'Vix_Low_2', 'Vix_Low_4', 'Vix_Close_5', 'Vix_Low_5', 'Vix_Close_2', 'Vix_Close_3', 'Gld_Volume_4', 'Low_1', 'Vix_High_3', 'Vix_Low_3', 'Gld_Volume_5', 'Vix_High_2'], size = 17
