@@ -194,9 +194,9 @@ if __name__ == "__main__":
     epochs_list = list(range(18,32,4))
     batch_list = [32,48,64,72,96]
     units_list = list(range(30,90,10))
-    for epoch in epochs_list:
-        for batch in batch_list:
-            for unit in units_list:
+    for epoch in [26]:
+        for batch in [32]:
+            for unit in [70]:
                 prediction = lstm_experiment('combiner_noLookback.csv', 6000, epochs=epoch,batch_size =batch,units=unit)
                 name= f'epochs = {epoch} ,batch = {batch} , unit = {unit}'
                 print(name)
@@ -210,7 +210,7 @@ if __name__ == "__main__":
                     x=date_test,
                     y=prediction,
                     mode='lines',
-                    name='Prediction_Without_Month'
+                    name='Prediction_With_Month'
                 )
                 trace3 = go.Scatter(
                     x=date_test,
