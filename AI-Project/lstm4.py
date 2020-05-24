@@ -37,7 +37,7 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
         agg.dropna(inplace=True)
     return agg
 
-def lstm_experiment(csv_name,samples,epochs=50):
+def lstm_experiment(csv_name,samples,epochs=50,batch_size=72,units=50):
     # load dataset
     np.random.seed(0)
     dataset = read_csv(csv_name, header=0, index_col=0)
@@ -69,11 +69,13 @@ def lstm_experiment(csv_name,samples,epochs=50):
     #tmp =list(range(110,220))
     #tmp.remove(112)
 
+    close = 2
+    label = 122
     tmp =list(range(dataset.shape[1],dataset.shape[1]*2))
-    tmp.remove(dataset.shape[1]+2)
+    tmp.remove(dataset.shape[1]+close)
 
     reframed.drop(reframed.columns[tmp], axis=1, inplace=True)
-    print(reframed.head())
+    #print(reframed.head())
 
     # split into train and test sets
     values = reframed.values
@@ -86,15 +88,15 @@ def lstm_experiment(csv_name,samples,epochs=50):
     # reshape input to be 3D [samples, timesteps, features]
     train_X = train_X.reshape((train_X.shape[0], 1, train_X.shape[1]))
     test_X = test_X.reshape((test_X.shape[0], 1, test_X.shape[1]))
-    print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
+    #print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 
     # design network
     model = Sequential()
-    model.add(LSTM(50, input_shape=(train_X.shape[1], train_X.shape[2])))
+    model.add(LSTM(units, input_shape=(train_X.shape[1], train_X.shape[2])))
     model.add(Dense(1))
     model.compile(loss='mse', optimizer='adam')
     # fit network
-    history = model.fit(train_X, train_y, epochs=epochs, batch_size=72, validation_data=(test_X, test_y), verbose=2,
+    history = model.fit(train_X, train_y, epochs=epochs, batch_size=batch_size, validation_data=(test_X, test_y), verbose=2,
                         shuffle=False)
     # plot history
     pyplot.plot(history.history['loss'], label='train')

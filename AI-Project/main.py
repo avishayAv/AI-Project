@@ -138,20 +138,18 @@ if __name__ == "__main__":
     #main()
 
     #lstm_experiment('combiner_full_noLabel.csv',2000,epochs=30)
+    #firts experiments
 
-    prediction1 = lstm_experiment('combiner_noMonth_noLookback.csv', 6000, epochs=20)
+    #prediction1 = lstm_experiment('combiner_noMonth_noLookback.csv', 6000, epochs=20)
+    #prediction2 = lstm_experiment('combiner_noLookback.csv', 6000, epochs=25)
 
-    prediction2 = lstm_experiment('combiner_noLookback.csv', 6000, epochs=25)
-
-
-
-    data = pd.read_csv('combiner_noLookback.csv')
+    """data = pd.read_csv('combiner_noLookback.csv')
 
     date = data['Date'].values
     close = data['Close'].values
 
-    date_train,date_test = date[:6000] ,date[6000:]
-    close_train,close_test = close[:6000] ,close[6000:]
+    date_train, date_test = date[:6000], date[6000:]
+    close_train, close_test = close[:6000], close[6000:]
 
     trace1 = go.Scatter(
         x=date_train,
@@ -182,5 +180,48 @@ if __name__ == "__main__":
         xaxis={'title': "Date"},
         yaxis={'title': "Close"}
     )
-    fig = go.Figure(data=[trace1, trace2, trace3,trace4], layout=layout)
-    fig.show()
+    fig = go.Figure(data=[trace1, trace2,trace3, trace4], layout=layout)
+    fig.show()"""
+
+    data = pd.read_csv('combiner_noLookback.csv')
+
+    date = data['Date'].values
+    close = data['Close'].values
+
+    date_train,date_test = date[:6000] ,date[6000:]
+    close_train,close_test = close[:6000] ,close[6000:]
+
+    epochs_list = list(range(18,32,4))
+    batch_list = [32,48,64,72,96]
+    units_list = list(range(30,90,10))
+    for epoch in epochs_list:
+        for batch in batch_list:
+            for unit in units_list:
+                prediction = lstm_experiment('combiner_noLookback.csv', 6000, epochs=epoch,batch_size =batch,units=unit)
+                name= f'epochs = {epoch} ,batch = {batch} , unit = {unit}'
+                print(name)
+                trace1 = go.Scatter(
+                    x=date_train,
+                    y=close_train,
+                    mode='lines',
+                    name='Data'
+                )
+                trace2 = go.Scatter(
+                    x=date_test,
+                    y=prediction,
+                    mode='lines',
+                    name='Prediction_Without_Month'
+                )
+                trace3 = go.Scatter(
+                    x=date_test,
+                    y=close_test,
+                    mode='lines',
+                    name='Ground Truth'
+                )
+                layout = go.Layout(
+                    title=name,
+                    xaxis={'title': "Date"},
+                    yaxis={'title': "Close"}
+                )
+                fig = go.Figure(data=[trace1,trace2,trace3], layout=layout)
+                fig.show()
