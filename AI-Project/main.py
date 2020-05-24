@@ -17,6 +17,7 @@ from keras.preprocessing.sequence import TimeseriesGenerator
 from keras.models import Sequential
 from keras.layers import LSTM, Dense
 import plotly.graph_objects as go
+from sklearn.preprocessing import MinMaxScaler
 
 
 
@@ -230,18 +231,20 @@ def lstm_predict():
 
     label_ground_truth = real_against_pred['label'].values
     label_prediction = real_against_pred['Label_Prediction'].values
+    scaled = (label_prediction -min(label_prediction)) /(max(label_prediction)-min(label_prediction))*2
+    scaled[scaled>1] = 1
     date_test_to_plot = real_against_pred['Date'].values
 
     trace1 = go.Scatter(
         x=date_test_to_plot,
         y=label_ground_truth,
-        mode='lines',
+        mode='lines+markers',
         name='Ground Truth'
     )
     trace2 = go.Scatter(
         x=date_test_to_plot,
-        y=label_prediction,
-        mode='lines',
+        y=scaled,
+        mode='lines+markers',
         name='Prediction'
     )
     layout = go.Layout(
