@@ -78,9 +78,6 @@ def test_feature_selection(combiner):
     findKExtraTree_feature_selection(standardized_X, y, standardized_X.shape[1])
 
 def csv_create():
-    crisis_percentage = {'small': 5, 'medium': 10, 'big': 15}
-    crisis_increase_sequence = {'short': 5, 'medium': 10, 'long': 15}
-    crisis_recovery = {'partially': 0.05, 'full': 0}
     crisis = get_dates_of_crises(5, 0.04, 0.025, 1)
 
     # full features periodically with label
@@ -119,31 +116,11 @@ def csv_create():
     combiner.drop(columns=['DateMonthFormat'], inplace=True)
     combiner.to_csv(os.getcwd() + '/combiner_noMonth_noLookback.csv')
 
+def lstm_choose_features():
+    prediction1 = lstm_experiment('combiner_noMonth_noLookback.csv', 6000, epochs=20)
+    prediction2 = lstm_experiment('combiner_noLookback.csv', 6000, epochs=25)
 
-
-
-def main():
-    # create all csv
-    csv_create()
-
-    #part 1 try simple algorithms with feature selection
-    #combiner = pd.read_csv('combiner_full.csv')
-    #test_feature_selection(combiner)
-
-
-
-
-
-if __name__ == "__main__":
-    #main()
-
-    #lstm_experiment('combiner_full_noLabel.csv',2000,epochs=30)
-    #firts experiments
-
-    #prediction1 = lstm_experiment('combiner_noMonth_noLookback.csv', 6000, epochs=20)
-    #prediction2 = lstm_experiment('combiner_noLookback.csv', 6000, epochs=25)
-
-    """data = pd.read_csv('combiner_noLookback.csv')
+    data = pd.read_csv('combiner_noLookback.csv')
 
     date = data['Date'].values
     close = data['Close'].values
@@ -181,8 +158,9 @@ if __name__ == "__main__":
         yaxis={'title': "Close"}
     )
     fig = go.Figure(data=[trace1, trace2,trace3, trace4], layout=layout)
-    fig.show()"""
+    fig.show()
 
+def lstm_choose_params():
     data = pd.read_csv('combiner_noLookback.csv')
 
     date = data['Date'].values
@@ -194,9 +172,9 @@ if __name__ == "__main__":
     epochs_list = list(range(18,32,4))
     batch_list = [32,48,64,72,96]
     units_list = list(range(30,90,10))
-    for epoch in [26]:
-        for batch in [32]:
-            for unit in [70]:
+    for epoch in epochs_list:
+        for batch in batch_list:
+            for unit in units_list:
                 prediction = lstm_experiment('combiner_noLookback.csv', 6000, epochs=epoch,batch_size =batch,units=unit)
                 name= f'epochs = {epoch} ,batch = {batch} , unit = {unit}'
                 print(name)
@@ -210,7 +188,7 @@ if __name__ == "__main__":
                     x=date_test,
                     y=prediction,
                     mode='lines',
-                    name='Prediction_With_Month'
+                    name='Prediction'
                 )
                 trace3 = go.Scatter(
                     x=date_test,
@@ -225,3 +203,88 @@ if __name__ == "__main__":
                 )
                 fig = go.Figure(data=[trace1,trace2,trace3], layout=layout)
                 fig.show()
+
+def lstm_predict():
+
+    #Step #1 : predict
+    data = pd.read_csv('combiner_noLookback.csv')
+    date = data['Date'].values
+    close = data['Close'].values
+    date_train,date_test = date[:6000] ,date[6000:]
+    close_train,close_test = close[:6000] ,close[6000:]
+    prediction = lstm_experiment('combiner_noLookback.csv', 6000, epochs=26,batch_size =32,units=70)
+    date_test = np.delete(date_test, len(date_test)-1)  #does not predict the first date because of the lookback.
+    prediction_dataset = pd.DataFrame({'Date': date_test, 'Close_Prediction': prediction})
+
+    #Step #2 : import ground truth
+    real_data = pd.read_csv('combiner_final_lstm_to_predict.csv')
+
+    #Step #3 : merge
+    real_against_pred = pd.merge(prediction_dataset, real_data)
+    # add label - min max normlization
+    real_against_pred['Label_Prediction'] = real_against_pred.apply(
+        lambda row: (row['Price_Max'] - row['Close_Prediction']) / (row['Price_Max'] - row['Price_Min']) if (
+                    row['Price_Max'] - row['Price_Min']) else 0, axis=1)
+    real_against_pred = real_against_pred[['Date','Price_Min', 'Price_Max', 'Close', 'label','Close_Prediction', 'Label_Prediction']]
+    #combiner.drop(columns=['Price_Day', 'DateMonthFormat'], inplace=True)
+
+    label_ground_truth = real_against_pred['label'].values
+    label_prediction = real_against_pred['Label_Prediction'].values
+    date_test_to_plot = real_against_pred['Date'].values
+
+    trace1 = go.Scatter(
+        x=date_test_to_plot,
+        y=label_ground_truth,
+        mode='lines',
+        name='Ground Truth'
+    )
+    trace2 = go.Scatter(
+        x=date_test_to_plot,
+        y=label_prediction,
+        mode='lines',
+        name='Prediction'
+    )
+    layout = go.Layout(
+        title="S&P 500",
+        xaxis={'title': "Date"},
+        yaxis={'title': "Grade"}
+    )
+    fig = go.Figure(data=[trace1,trace2], layout=layout)
+    fig.show()
+
+def export_lstm_to_predict():
+    crisis = get_dates_of_crises(5, 0.04, 0.025, 1)
+    # full features periodically with label
+    combiner = pd.merge(get_day_attributes(add_look_back=0), get_month_attributes(add_look_back=0))
+    combiner = pd.merge(combiner, crisis_to_df(crisis))
+
+    # add label - min max normlization
+    combiner['label'] = combiner.apply(
+        lambda row: (row['Price_Max'] - row['Close']) / (row['Price_Max'] - row['Price_Min']) if (
+                    row['Price_Max'] - row['Price_Min']) else 0, axis=1)
+    combiner.to_csv(os.getcwd() + '/combiner_final_lstm_to_predict.csv')
+
+def main():
+    # create all csv
+    # csv_create()
+
+    # part 1 try simple algorithms with feature selection
+    # combiner = pd.read_csv('combiner_full.csv')
+    # test_feature_selection(combiner)
+
+    # part 2 : LSTM first experiments - Choose Features
+    # lstm_choose_features()
+
+    # part 3 : LSTM - evaluate hyper parameters
+    # lstm_choose_params()
+
+    #last part - predict according to chosen LSTM
+    # export_lstm_to_predict()
+    lstm_predict()
+
+if __name__ == "__main__":
+    main()
+
+
+
+
