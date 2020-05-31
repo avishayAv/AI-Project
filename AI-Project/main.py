@@ -209,6 +209,7 @@ def lstm_predict():
 
     #Step #1 : predict
     data = pd.read_csv('combiner_noLookback.csv')
+    data = data.drop(columns=['Unnamed: 0'])
     date = data['Date'].values
     close = data['Close'].values
     date_train,date_test = date[:6000] ,date[6000:]
@@ -227,6 +228,7 @@ def lstm_predict():
         lambda row: (row['Price_Max'] - row['Close_Prediction']) / (row['Price_Max'] - row['Price_Min']) if (
                     row['Price_Max'] - row['Price_Min']) else 0, axis=1)
     real_against_pred = real_against_pred[['Date','Price_Min', 'Price_Max', 'Close', 'label','Close_Prediction', 'Label_Prediction']]
+    real_against_pred.to_csv(os.getcwd() + '/strategies.csv')
     #combiner.drop(columns=['Price_Day', 'DateMonthFormat'], inplace=True)
 
     label_ground_truth = real_against_pred['label'].values
@@ -272,8 +274,8 @@ def main():
     # csv_create()
 
     # part 1 try simple algorithms with feature selection
-    combiner = pd.read_csv('combiner_full.csv')
-    test_feature_selection(combiner)
+    # combiner = pd.read_csv('combiner_full.csv')
+    # test_feature_selection(combiner)
 
     # part 2 : LSTM first experiments - Choose Features
     # lstm_choose_features()
@@ -283,7 +285,7 @@ def main():
 
     #last part - predict according to chosen LSTM
     # export_lstm_to_predict()
-    #lstm_predict()
+    lstm_predict()
 
 if __name__ == "__main__":
     main()
