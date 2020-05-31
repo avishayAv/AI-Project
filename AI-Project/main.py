@@ -55,8 +55,8 @@ def crisis_to_df(crisis_list):
     return df
 
 def test_feature_selection(combiner):
-    X = combiner.loc[:, combiner.columns != 'label'].drop(columns=['Date'])
-    y = (combiner['label'] * 10).astype(int)
+    X = combiner.loc[:, combiner.columns != 'label'].drop(columns=['Date', 'Unnamed: 0'])
+    y = combiner['label']
 
     # normalization
     normalized_X = scale_min_max(X)
@@ -272,8 +272,8 @@ def main():
     # csv_create()
 
     # part 1 try simple algorithms with feature selection
-    # combiner = pd.read_csv('combiner_full.csv')
-    # test_feature_selection(combiner)
+    combiner = pd.read_csv('combiner_full.csv')
+    test_feature_selection(combiner)
 
     # part 2 : LSTM first experiments - Choose Features
     # lstm_choose_features()
@@ -283,7 +283,7 @@ def main():
 
     #last part - predict according to chosen LSTM
     # export_lstm_to_predict()
-    lstm_predict()
+    #lstm_predict()
 
 if __name__ == "__main__":
     main()

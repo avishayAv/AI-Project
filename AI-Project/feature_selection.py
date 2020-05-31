@@ -3,15 +3,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import metrics
 from sklearn.base import clone
-from sklearn.feature_selection import SelectKBest, mutual_info_classif
-from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.feature_selection import SelectKBest, mutual_info_regression
+from sklearn.ensemble import ExtraTreesRegressor
 from sklearn import preprocessing
 from sklearn.model_selection import KFold
 from test import *
 import collections,functools,operator
 
 def selectKBest_features_selection(x: pd.DataFrame, y: pd.DataFrame, k):
-    selector = SelectKBest(mutual_info_classif, k=k)
+    selector = SelectKBest(mutual_info_regression, k=k)
     selector.fit(x, y)
     features = selector.get_support(indices=True)
     return x.columns.values[features]
@@ -53,7 +53,7 @@ def findKBest_features_selection(x:pd.DataFrame,y:pd.DataFrame,num_features):
 
 
 def ExtraTree_feature_selection(data_X, data_Y, k):
-    clf = ExtraTreesClassifier(n_estimators=50)
+    clf = ExtraTreesRegressor(n_estimators=50)
     forest = clf.fit(data_X, data_Y)
     X = data_X.values
     y = data_Y.values
