@@ -1,0 +1,10 @@
+pandas
+datetime
+numpy
+sklearn
+collections
+functools
+operator
+matplotlib
+math
+keras
